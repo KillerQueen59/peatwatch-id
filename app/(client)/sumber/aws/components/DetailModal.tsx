@@ -1,7 +1,6 @@
 import Button, { ButtonColor, ButtonSize } from "@/components/Button";
 import { CloseIcon } from "@/components/Icon/CloseIcon";
 import { useCapture } from "@/hooks/useCapture";
-import Image from "next/image";
 
 type DetailModalProps = {
   header: string;

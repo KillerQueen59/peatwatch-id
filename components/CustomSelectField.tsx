@@ -34,15 +34,11 @@ const CustomSelectField = ({
 }: Props) => {
   return (
     <div className={clsx("flex", className)}>
-      <div className="text-gray-80 text-base my-auto mr-4 min-w-[50px]">
+      <div className="text-gray-80 text-base my-auto mr-4 min-w-[100px]">
         {label} {required && <span className="text-danger-60">*</span>}
       </div>
       <div>{helper && <div className={"text-gray-50 "}>{helper}</div>}</div>
-      <CustomSelect
-        options={undefined}
-        value={undefined}
-        onChange={undefined}
-      />
+      <CustomSelect options={options} value={value} onChange={onChange} />
     </div>
   );
 };

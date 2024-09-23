@@ -14,6 +14,34 @@ module.exports = {
         leave: "fadeOutLeft 300ms ease-in forwards",
         show: "fadeShow 200ms ease-out",
       },
+      keyframes: {
+        fadeInRight: {
+          "0%": {
+            opacity: "0",
+            transform: "translate(2rem)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translate(0)",
+          },
+        },
+        fadeShow: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
+        fadeOutLeft: {
+          "0%": {
+            opacity: "1",
+          },
+          "100%": {
+            opacity: "0",
+          },
+        },
+      },
       colors: {
         debug: "coral",
         primary: {

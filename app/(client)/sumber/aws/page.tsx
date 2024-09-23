@@ -1,7 +1,7 @@
 "use client";
 import Table from "@/components/Table/Table";
 import AWSColumn from "./components/AWSColumn";
-import { dummyAws } from "@/dummy/data";
+import { dummyAws, dummyPT } from "@/dummy/data";
 import { SetStateAction, useState } from "react";
 import CustomSelectField from "@/components/CustomSelectField";
 import Button, { ButtonSize, ButtonColor } from "@/components/Button";
@@ -36,16 +36,22 @@ export default function AWS() {
           <div className="text-black">
             <div className="flex border-t px-6 pt-5 pb-2 space-x-6">
               <CustomSelectField
-                options={[]}
-                value={""}
-                onChange={undefined}
+                options={[{ value: "normal", label: "Normal" }]}
+                value={{
+                  value: "normal",
+                  label: "Normal",
+                }}
+                onChange={() => {}}
                 name={"status"}
                 label={"Status"}
               />
               <CustomSelectField
-                options={[]}
-                value={""}
-                onChange={undefined}
+                options={dummyPT}
+                value={{
+                  value: "XYZ",
+                  label: "XYZ",
+                }}
+                onChange={() => {}}
                 name={"pt"}
                 label={"PT"}
               />
@@ -78,9 +84,7 @@ export default function AWS() {
               data={dummyAws}
               columns={columns}
               pageIndex={0}
-              setPageIndex={function (value: SetStateAction<number>): void {
-                throw new Error("Function not implemented.");
-              }}
+              setPageIndex={() => {}}
             />
           </div>
         </div>

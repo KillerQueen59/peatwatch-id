@@ -5,8 +5,10 @@ import Image from "next/image";
 import Button, { ButtonSize } from "@/components/Button";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   const { control } = useForm();
   return (
     <form
@@ -20,9 +22,6 @@ export default function Login() {
           height={84}
           priority
         />
-      </div>
-      <div className="font-semibold text-xl text-gray-80">
-        Nice to see you again
       </div>
       <InputField
         control={control}
@@ -43,9 +42,11 @@ export default function Login() {
       <div className="my-5 flex"></div>
 
       <Button
-        type="submit"
+        type="button"
         label="Login"
-        onClick={() => {}}
+        onClick={() => {
+          router.replace("/");
+        }}
         buttonSize={ButtonSize.LARGE}
         fullWidth
       />

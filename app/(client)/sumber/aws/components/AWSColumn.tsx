@@ -7,6 +7,7 @@ import { AlatAWS } from "@/shared/type";
 import { date } from "@/shared/date";
 import { MenuItem } from "@headlessui/react";
 import clsx from "clsx";
+import { CheckCircle, XCircle } from "heroicons-react";
 
 const AWSColumn = (
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
@@ -92,7 +93,25 @@ const AWSColumn = (
           <div className="w-full text-left text-xs text-gray-80">Status</div>
         ),
         minSize: Math.round((global?.window && window.innerHeight - 55) * 0.2),
-        cell: (info) => <div>{info.row.original.status ?? ""}</div>,
+        cell: (info) => (
+          <div>
+            {info.row.original.status == "Normal" ? (
+              <CheckCircle
+                className="text-success-60"
+                size={20}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            ) : (
+              <XCircle
+                className="text-danger-60"
+                size={20}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+            )}
+          </div>
+        ),
       },
       {
         accessorKey: "action",

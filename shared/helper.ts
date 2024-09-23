@@ -64,3 +64,69 @@ export const transformColor = (backgroundColor: string[]) => {
   });
   return _background;
 };
+
+export function getWindDirection(degrees: number) {
+  if (degrees < 0 || degrees >= 360) {
+    throw new Error("Degrees must be between 0 and 359");
+  }
+
+  const directions = [
+    "Utara",
+    "Utara-Timur Laut",
+    "Timur Laut",
+    "Timur-Utara Laut",
+    "Timur",
+    "Timur-Selatan Laut",
+    "Tenggara",
+    "Selatan-Tenggara",
+    "Selatan",
+    "Selatan-Barat Daya",
+    "Barat Daya",
+    "Barat-Tenggara",
+    "Barat",
+    "Barat-Utara Laut",
+    "Barat Laut",
+    "Utara-Barat Laut",
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+  return directions[index];
+}
+
+export const convertToLabelValue = (data: any, selectedKebun: any) => {
+  if (!selectedKebun) {
+    const totals = {
+      rusak: 0,
+      idle: 0,
+      active: 0,
+      alert: 0,
+    };
+
+    data.forEach((item: any) => {
+      totals.rusak += item.rusak;
+      totals.idle += item.idle;
+      totals.active += item.active;
+      totals.alert += item.alert;
+    });
+
+    return [
+      { label: "Rusak", value: totals.rusak },
+      { label: "Idle", value: totals.idle },
+      { label: "Active", value: totals.active },
+      { label: "Alert", value: totals.alert },
+    ];
+  }
+
+  const entry = data.find((item: any) => item.kebun === selectedKebun);
+
+  if (entry) {
+    return [
+      { label: "Rusak", value: entry.rusak },
+      { label: "Idle", value: entry.idle },
+      { label: "Active", value: entry.active },
+      { label: "Alert", value: entry.alert },
+    ];
+  }
+
+  return [];
+};

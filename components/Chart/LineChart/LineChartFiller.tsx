@@ -17,12 +17,10 @@ import { Line } from "react-chartjs-2";
 
 import clsx from "clsx";
 import Button, {
-  ButtonColor,
   ButtonSize,
+  ButtonColor,
   ButtonType,
 } from "@/components/Button";
-import { dummyAws } from "@/dummy/data";
-import { downloadCsv } from "@/hooks/useExport";
 import { useCapture } from "@/hooks/useCapture";
 
 ChartJS.register(
@@ -32,10 +30,11 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
-type LineChartProps = {
+type LineChartFillerProps = {
   label: string[];
   title?: string;
   upperTitle?: string;
@@ -47,9 +46,9 @@ type LineChartProps = {
   yAxisTitle?: string;
   setCategory?: (value: any) => void;
   category?: string;
-  colors?: string[];
   dataType?: string;
   dataSatuan?: string;
+  colors?: string[];
   selectedDate?: string;
   id: string;
   pt: string;
@@ -57,7 +56,7 @@ type LineChartProps = {
   device: string;
 };
 
-function LineChart({
+function LineChartFiller({
   label,
   title,
   upperTitle,
@@ -67,23 +66,28 @@ function LineChart({
   yAxisTitle = "",
   setCategory,
   category,
-  colors = ["#1C9ED8", "#FFC107", "#FF5722", "#4CAF50", "#9C27B0"],
-  dataSatuan,
   dataType,
+  dataSatuan,
   selectedDate,
+  colors = ["#1C9ED8", "#FFC107", "#FF5722", "#4CAF50", "#9C27B0"],
   id,
   pt,
   kebun,
   device,
-}: LineChartProps) {
+}: LineChartFillerProps) {
   const dataset = React.useMemo(() => {
     const _dataset: any[] = [];
-
-    data.map((d, index) => {
+    data.map((d) => {
       _dataset.push({
         data: [...d],
-        borderColor: colors[index % colors.length],
-        backgroundColor: `${colors[index % colors.length]}33`,
+        fill: "start",
+        backgroundColor: (context: ScriptableContext<"line">) => {
+          const ctx = context.chart.ctx;
+          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+          gradient.addColorStop(0, "rgba(71,157,255,0.5)");
+          gradient.addColorStop(1, "rgba(71,157,255,0.5)");
+          return gradient;
+        },
         tension: 0.2,
         hitRadius: 10,
       });
@@ -91,8 +95,6 @@ function LineChart({
     return _dataset;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-  const { pictureComponent } = useCapture(id);
 
   const _data = {
     labels: label,
@@ -174,6 +176,9 @@ function LineChart({
       chart.update();
     },
   };
+
+  const { pictureComponent } = useCapture(id);
+
   return (
     <div className={clsx("p-6 bg-white rounded-2xl flex flex-col", className)}>
       <div className="flex">
@@ -211,8 +216,7 @@ function LineChart({
             <div className="w-[89%]">{selectedDate ?? "-"}</div>
           </div>
         </div>
-        <div className="text-lg text-center">{title}</div>
-        <div className="flex-1 my-4 min-h-[400px]">
+        <div className="flex-1 my-4 min-h-[300px]">
           <Line
             data={_data}
             plugins={[clickableLine]}
@@ -266,4 +270,4 @@ function LineChart({
   );
 }
 
-export default LineChart;
+export default LineChartFiller;

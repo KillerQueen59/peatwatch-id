@@ -35,5 +35,4 @@ export type AlatAWS = {
   signal: number;
   sensor: number;
   status: string;
-  note: string;
 };

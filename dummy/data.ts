@@ -1,6 +1,4 @@
 import { AlatAWL, AlatAWS } from "./../shared/type";
-import { AlatType } from "@/shared/enum";
-import { Alat } from "@/shared/type";
 
 export const dummyPT = [
   {
@@ -9,7 +7,73 @@ export const dummyPT = [
   },
 ];
 
+const dummies = [
+  {
+    label: "Idle",
+    value: 10,
+  },
+  {
+    label: "Active",
+    value: 90,
+  },
+  {
+    label: "Rusak",
+    value: 0,
+  },
+  {
+    label: "Alert",
+    value: 10,
+  },
+];
+
+export const dummiesDashboard = [
+  {
+    pt: "XYZ",
+    kebun: "XYZ22",
+    rusak: 2,
+    idle: 3,
+    active: 5,
+    alert: 1,
+  },
+  {
+    pt: "XYZ",
+    kebun: "XYZ23",
+    rusak: 1,
+    idle: 2,
+    active: 6,
+    alert: 1,
+  },
+  {
+    pt: "XYZ",
+    kebun: "XYZ24",
+    rusak: 3,
+    idle: 1,
+    active: 4,
+    alert: 2,
+  },
+  {
+    pt: "XYZ",
+    kebun: "XYZ25",
+    rusak: 0,
+    idle: 4,
+    active: 5,
+    alert: 1,
+  },
+  {
+    pt: "XYZ",
+    kebun: "XYZ26",
+    rusak: 1,
+    idle: 3,
+    active: 4,
+    alert: 2,
+  },
+];
+
 export const dummyKebun = [
+  {
+    label: "All",
+    value: "",
+  },
   {
     label: "XYZ22",
     value: "XYZ22",
@@ -37,6 +101,84 @@ export const dummyKebun = [
   },
 ];
 
+export const dummyKebunAwl = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "XYZ12",
+    value: "XYZ12",
+    pt: "XYZ",
+  },
+  {
+    label: "XYZ13",
+    value: "XYZ13",
+    pt: "XYZ",
+  },
+  {
+    label: "XYZ14",
+    value: "XYZ14",
+    pt: "XYZ",
+  },
+  {
+    label: "XYZ15",
+    value: "XYZ15",
+    pt: "XYZ",
+  },
+  {
+    label: "XYZ16",
+    value: "XYZ16",
+    pt: "XYZ",
+  },
+];
+
+export const dummyDevice = [
+  {
+    label: "AWS-001-XYZ22-1234",
+    value: "AWS-001-XYZ22-1234",
+  },
+  {
+    label: "AWS-002-XYZ23-5678",
+    value: "AWS-002-XYZ23-5678",
+  },
+  {
+    label: "AWS-003-XYZ24-9101",
+    value: "AWS-003-XYZ24-9101",
+  },
+  {
+    label: "AWS-004-XYZ25-1121",
+    value: "AWS-004-XYZ25-1121",
+  },
+  {
+    label: "AWS-005-XYZ26-3141",
+    value: "AWS-005-XYZ26-3141",
+  },
+];
+
+export const dummyDeviceAwl = [
+  {
+    label: "AWL-001-XYZ12-3456",
+    value: "AWL-001-XYZ12-3456",
+  },
+  {
+    label: "AWL-002-XYZ13-7890",
+    value: "AWL-002-XYZ13-7890",
+  },
+  {
+    label: "AWL-003-XYZ14-1234",
+    value: "AWL-003-XYZ14-1234",
+  },
+  {
+    label: "AWL-004-XYZ15-5678",
+    value: "AWL-004-XYZ15-5678",
+  },
+  {
+    label: "AWL-005-XYZ16-9101",
+    value: "AWL-005-XYZ16-9101",
+  },
+];
+
 export const dummyAws: AlatAWS[] = [
   {
     name: "AWS",
@@ -46,8 +188,7 @@ export const dummyAws: AlatAWS[] = [
     battery: 99,
     signal: 25,
     sensor: 0,
-    status: "Checklist",
-    note: "Aktif",
+    status: "Normal",
   },
   {
     name: "AWS",
@@ -57,8 +198,7 @@ export const dummyAws: AlatAWS[] = [
     battery: 80,
     signal: 30,
     sensor: 2,
-    status: "Checklist",
-    note: "Aktif",
+    status: "Normal",
   },
   {
     name: "AWS",
@@ -68,8 +208,7 @@ export const dummyAws: AlatAWS[] = [
     battery: 60,
     signal: 28,
     sensor: 1,
-    status: "Maintenance",
-    note: "Non-Aktif",
+    status: "Normal",
   },
   {
     name: "AWS",
@@ -79,8 +218,7 @@ export const dummyAws: AlatAWS[] = [
     battery: 45,
     signal: 18,
     sensor: 3,
-    status: "Checklist",
-    note: "Aktif",
+    status: "Normal",
   },
   {
     name: "AWS",
@@ -90,8 +228,7 @@ export const dummyAws: AlatAWS[] = [
     battery: 70,
     signal: 22,
     sensor: 0,
-    status: "Checklist",
-    note: "Aktif",
+    status: "Normal",
   },
 ];
 
@@ -105,7 +242,7 @@ export const dummyAwl: AlatAWL[] = [
     battery: 85,
     signal: 20,
     data: 150,
-    status: "Checklist",
+    status: "Normal",
     note: "Aktif",
   },
   {
@@ -117,7 +254,7 @@ export const dummyAwl: AlatAWL[] = [
     battery: 65,
     signal: 15,
     data: 200,
-    status: "Maintenance",
+    status: "Normal",
     note: "Non-Aktif",
   },
   {
@@ -129,7 +266,7 @@ export const dummyAwl: AlatAWL[] = [
     battery: 90,
     signal: 18,
     data: 180,
-    status: "Checklist",
+    status: "Normal",
     note: "Aktif",
   },
   {
@@ -141,7 +278,7 @@ export const dummyAwl: AlatAWL[] = [
     battery: 75,
     signal: 22,
     data: 220,
-    status: "Checklist",
+    status: "Normal",
     note: "Aktif",
   },
   {
@@ -153,7 +290,7 @@ export const dummyAwl: AlatAWL[] = [
     battery: 50,
     signal: 17,
     data: 130,
-    status: "Checklist",
+    status: "Normal",
     note: "Aktif",
   },
 ];

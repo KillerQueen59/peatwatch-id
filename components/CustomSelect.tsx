@@ -37,6 +37,7 @@ const CustomSelect = ({
         }),
         control: (base: any) => ({
           ...base,
+          minWidth: "150px",
           border: error ? "1px solid #DC2626" : "1px solid #E5E7EB",
           borderRadius: "8px",
           overflow: "hidden",
@@ -56,7 +57,7 @@ const CustomSelect = ({
       }}
       value={
         options
-          ? options.find((option: any) => option.value === value?.value ?? "")
+          ? options.find((option: any) => option.value === value?.value)
           : ""
       }
       placeholder={placeholder ?? "Choose Select"}

@@ -5,6 +5,12 @@ import { SetStateAction } from "react";
 import CustomSelectField from "@/components/CustomSelectField";
 import Button, { ButtonSize, ButtonColor } from "@/components/Button";
 import AWLColumn from "./components/AWLColumn";
+import {
+  downloadCsv,
+  downloadCsvAwl,
+  downloadPdf,
+  downloadPdfAwl,
+} from "@/hooks/useExport";
 
 export default function AWL() {
   const columns = AWLColumn();
@@ -47,13 +53,17 @@ export default function AWL() {
               <div className="flex-grow" />
               <Button
                 label="PDF"
-                onClick={() => {}}
+                onClick={() => {
+                  downloadPdfAwl(dummyAwl);
+                }}
                 buttonSize={ButtonSize.LARGE}
                 buttonColor={ButtonColor.PRIMARY}
               />
               <Button
                 label="Excel"
-                onClick={() => {}}
+                onClick={() => {
+                  downloadCsvAwl(dummyAwl);
+                }}
                 buttonSize={ButtonSize.LARGE}
                 buttonColor={ButtonColor.PRIMARY}
               />
@@ -78,9 +88,7 @@ export default function AWL() {
               data={dummyAwl}
               columns={columns}
               pageIndex={0}
-              setPageIndex={function (value: SetStateAction<number>): void {
-                throw new Error("Function not implemented.");
-              }}
+              setPageIndex={() => {}}
             />
           </div>
         </div>

@@ -9,6 +9,7 @@ import {
   ChevronDoubleLeftOutline,
   ChevronLeftOutline,
   ChevronRightOutline,
+  LogoutOutline,
 } from "heroicons-react";
 import { useRecoilState } from "recoil";
 import DashboardSidebar from "./DahboardSidebar";
@@ -36,37 +37,71 @@ function SideBar() {
           className="transition-all duration-100 ease-out"
         />
       </div>
-      <div
-        className="flex h-[50px] pl-8 items-center cursor-pointer text-gray-80 "
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}>
-        {isOpen ? (
-          <div className="flex space-x-3 items-center h-[50px]">
-            <ChevronLeftOutline
+      <div className="flex flex-col flex-grow">
+        <div
+          className="flex h-[50px] pl-8 items-center cursor-pointer text-gray-80 "
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}>
+          {isOpen ? (
+            <div className="flex space-x-3 items-center h-[50px]">
+              <ChevronLeftOutline
+                className={"h-[20px] w-[20px] text-gray-100"}
+                onPointerEnterCapture={undefined}
+                onPointerLeaveCapture={undefined}
+              />
+
+              <div> Hide Menu </div>
+            </div>
+          ) : (
+            <ChevronRightOutline
               className={"h-[20px] w-[20px] text-gray-100"}
               onPointerEnterCapture={undefined}
               onPointerLeaveCapture={undefined}
             />
-
-            <div> Hide Menu </div>
-          </div>
-        ) : (
-          <ChevronRightOutline
-            className={"h-[20px] w-[20px] text-gray-100"}
-            onPointerEnterCapture={undefined}
-            onPointerLeaveCapture={undefined}
+          )}
+        </div>
+        <div>
+          <DashboardSidebar isOpen={isOpen} pathname={pathname} />
+        </div>
+        <div>
+          <SumberSidebar
+            isOpen={isOpen}
+            pathname={pathname}
+            setIsOpen={setIsOpen}
           />
-        )}
+        </div>
+        <div>
+          <LaporanSidebar
+            isOpen={isOpen}
+            pathname={pathname}
+            setIsOpen={setIsOpen}
+          />
+        </div>
       </div>
-      <div>
-        <DashboardSidebar isOpen={isOpen} pathname={pathname} />
-      </div>
-      <div>
-        <SumberSidebar isOpen={isOpen} pathname={pathname} />
-      </div>
-      <div>
-        <LaporanSidebar isOpen={isOpen} pathname={pathname} />
+      <div
+        onClick={() => {
+          router.replace("/login");
+        }}
+        className="flex bg-white border-t">
+        <div className="h-[80px] p-6 items-center flex w-full">
+          {isOpen && (
+            <div className="w-[80%] flex-grow">
+              <div className="text-gray-80 text-sm font-semibold">
+                {"Admin"}
+              </div>
+              <div className="text-gray-70">{"Admin"}</div>
+            </div>
+          )}
+
+          <div className="cursor-pointer pl-[7px]">
+            <LogoutOutline
+              className={"h-[20px] w-[20px] text-red-60"}
+              onPointerEnterCapture={undefined}
+              onPointerLeaveCapture={undefined}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

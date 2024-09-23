@@ -18,11 +18,13 @@ import { sumber } from "@/shared/sumber";
 type SumberSidebarProps = {
   isOpen: boolean;
   pathname: string;
+  setIsOpen: (value: boolean) => void;
 };
 
 export default function SumberSidebar({
   isOpen,
   pathname,
+  setIsOpen,
 }: SumberSidebarProps) {
   const [showManagement, setShowManagement] = useState(true);
   const router = useRouter();
@@ -44,6 +46,9 @@ export default function SumberSidebar({
           }`}
           onClick={() => {
             setShowManagement(!showManagement);
+            if (!isOpen) {
+              setIsOpen(true);
+            }
           }}>
           <Database
             className={clsx("h-[20px] w-[20px]", {

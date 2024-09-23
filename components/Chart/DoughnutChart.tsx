@@ -27,6 +27,9 @@ type DoughnutChartProps = {
   background?: string;
   sideTitle?: boolean;
   onClick?: (index: any) => void;
+  onStatusClicked: () => void;
+  onLaporanHarianClicked: () => void;
+  onLaporanBulananClicked: () => void;
 };
 
 function DoughnutChart({
@@ -42,6 +45,9 @@ function DoughnutChart({
   sideTitle = false,
   onClick,
   background = "bg-neutral-white",
+  onStatusClicked,
+  onLaporanHarianClicked,
+  onLaporanBulananClicked,
 }: DoughnutChartProps) {
   const total = data.reduce(
     (a: any, b: any) => parseInt(a) + parseInt(b.value),
@@ -95,23 +101,24 @@ function DoughnutChart({
                   <div className="flex space-y-2 flex-col min-h-14 w-[150px] bg-neutral-white rounded text-center">
                     <div
                       className="flex text-lg	text-primary-60 cursor-pointer hover:underline hover:bg-primary-20"
-                      onClick={() => {}}>
+                      onClick={() => {
+                        onStatusClicked();
+                      }}>
                       Status
                     </div>
                     <div
                       className="flex cursor-pointer hover:underline hover:bg-gray-20 "
-                      onClick={() => {}}>
+                      onClick={() => {
+                        onLaporanHarianClicked();
+                      }}>
                       Laporan Harian
                     </div>
                     <div
                       className="flex cursor-pointer hover:underline hover:bg-gray-20 "
-                      onClick={() => {}}>
+                      onClick={() => {
+                        onLaporanBulananClicked();
+                      }}>
                       Laporan Bulanan
-                    </div>
-                    <div
-                      className="flex cursor-pointer hover:underline hover:bg-gray-20 "
-                      onClick={() => {}}>
-                      Detail
                     </div>
                   </div>
                 </div>

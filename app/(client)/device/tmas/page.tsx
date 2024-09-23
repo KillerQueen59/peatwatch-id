@@ -2,27 +2,26 @@
 
 import LineChart from "@/components/Chart/LineChart/LineChart";
 import CustomSelect from "@/components/CustomSelect";
-import CustomSelectField from "@/components/CustomSelectField";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import dummyData2 from "@/dummy/dummy_data.json";
+import dummyData2 from "@/dummy/tmas_dummy.json";
 import dayjs from "dayjs";
-import RenderData from "./component/RenderData";
 import InputDate from "@/components/InputDate/InputDate";
-import { dummyDevice, dummyKebun, dummyPT } from "@/dummy/data";
+import {
+  dummyPT,
+  dummyKebun,
+  dummyDeviceAwl,
+  dummyKebunAwl,
+} from "@/dummy/data";
 
-const formatDate = (timestamp: number) => {
-  return dayjs(timestamp).format("DD/MM/YYYY HH:mm:ss.SSS");
-};
-
-export default function AWS() {
+export default function TMAS() {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const dummyData = dummyData2
     .map((data) => {
       return {
         ...data,
-        Tanggal: formatDate(data.Tanggal),
+        Tanggal: dayjs(data.Tanggal).format("DD/MM/YYYY HH:mm:ss.SSS"),
       };
     })
     .filter((data) => {
@@ -32,15 +31,17 @@ export default function AWS() {
       );
     });
 
+  const [pt, setPt] = useState("");
+  const [kebun, setKebun] = useState("");
+  const [device, setDevice] = useState("");
+
+  console.log(pt, kebun, device);
+
   const dummyLabels = dummyData.map((data) => {
     return data.Tanggal.split(" ")[1].slice(0, 5);
   });
 
-  const [tipe, setTipe] = useState("");
   const [showFilter, setShowFilter] = useState(true);
-  const [pt, setPt] = useState("");
-  const [kebun, setKebun] = useState("");
-  const [device, setDevice] = useState("");
 
   return (
     <div>
@@ -49,7 +50,7 @@ export default function AWS() {
           <div className="flex w-full p-6">
             <div className="flex-grow">
               <div className="text-gray-80 font-semibold text-base">
-                Data AWS
+                Laporan TMAS
               </div>
               <div className="font-medium text-gray-50"></div>
             </div>
@@ -77,13 +78,15 @@ export default function AWS() {
                     placeholder="PT"
                   />
                   <CustomSelect
-                    options={dummyKebun.filter((kebun) => kebun.value !== "")}
+                    options={dummyKebunAwl.filter(
+                      (kebun) => kebun.value !== ""
+                    )}
                     value={kebun}
                     onChange={(e: string) => setKebun(e)}
                     placeholder="Kebun"
                   />
                   <CustomSelect
-                    options={dummyDevice.filter((aws) =>
+                    options={dummyDeviceAwl.filter((aws) =>
                       aws.value.includes(kebun ?? "")
                     )}
                     value={device}
@@ -91,27 +94,6 @@ export default function AWS() {
                     placeholder="Device"
                   />
                   <div className="flex-grow" />
-                </div>
-                <div className="flex px-6 pb-5 space-x-6">
-                  <CustomSelectField
-                    options={[
-                      {
-                        label: "Evaportranpiration",
-                        value: "evaportranpiration",
-                      },
-                      { label: "Humidity", value: "humidity" },
-                      { label: "Rainfall", value: "rainfall" },
-                      { label: "Rain Rate", value: "rainRate" },
-                      { label: "Solar Radiation", value: "solarRadiation" },
-                      { label: "Temperature", value: "temperature" },
-                      { label: "Wind Speed", value: "windSpeed" },
-                      { label: "Wind Direction", value: "windDirection" },
-                    ]}
-                    value={tipe}
-                    onChange={(e: SetStateAction<string>) => setTipe(e)}
-                    name={"status"}
-                    label={"Tipe Sensor"}
-                  />
                 </div>
                 <div className="flex px-6 pb-5 space-x-6">
                   <InputDate
@@ -124,13 +106,23 @@ export default function AWS() {
                 </div>
               </div>
             )}
-            {tipe !== "" && pt && kebun && device && dummyData.length > 0 ? (
+            {pt && kebun && device && dummyData.length > 0 ? (
               <div className="border-t">
-                <RenderData
-                  tipe={tipe}
+                <LineChart
                   label={dummyLabels}
-                  data={dummyData}
-                  selectedDate={selectedDate}
+                  upperTitle="Laporan TMAS"
+                  title="Tinggi Muka Air Saluran"
+                  data={[
+                    dummyData.map((data) => {
+                      return data["Ketinggian (cm)"];
+                    }),
+                  ]}
+                  xAxisTitle="Jam"
+                  yAxisTitle="TMAS (cm)"
+                  dataSatuan="cm"
+                  dataType="TMAS"
+                  selectedDate={dayjs(selectedDate).format("DD/MM/YYYY")}
+                  id="tmas"
                   pt={pt}
                   kebun={kebun}
                   device={device}
