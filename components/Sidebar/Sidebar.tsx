@@ -2,24 +2,21 @@
 import { Suspense, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-
-import { getRecoil, resetRecoil, setRecoil } from "recoil-nexus";
 import {
-  ChevronDoubleRightOutline,
-  ChevronDoubleLeftOutline,
   ChevronLeftOutline,
   ChevronRightOutline,
   LogoutOutline,
 } from "heroicons-react";
-import { useRecoilState } from "recoil";
 import DashboardSidebar from "./DahboardSidebar";
 import SumberSidebar from "./SumberSidebar";
 import LaporanSidebar from "./LaporanSidebar";
+import RouterComponent from "./RouterComponent";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudBolt, faMapLocation } from "@fortawesome/free-solid-svg-icons";
 
 function SideBar() {
   const [isOpen, setIsOpen] = useState(true);
   const pathname = usePathname();
-
   const router = useRouter();
 
   return (
@@ -78,6 +75,20 @@ function SideBar() {
             setIsOpen={setIsOpen}
           />
         </div>
+        <RouterComponent
+          parentPathname={`${pathname}`}
+          pathname={`/map`}
+          router={router}
+          label={"Map"}
+          icon={
+            <FontAwesomeIcon
+              icon={faMapLocation}
+              color={pathname.includes("/map") ? "#1781BF" : "#374151"}
+            />
+          }
+          isOpen={isOpen}
+          customClass="pl-8 text-sm"
+        />
       </div>
       <div
         onClick={() => {

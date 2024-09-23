@@ -20,8 +20,6 @@ export default function RouterComponent({
   isOpen,
   customClass = "pl-8",
 }: RouterComponentProps) {
-  console.log("customClass", customClass);
-
   return (
     <div
       className={`${
