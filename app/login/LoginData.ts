@@ -1,16 +1,12 @@
 import { toast } from "react-toastify";
 
 export const login = async (data: { email: string; password: string }) => {
-  const queryParams = new URLSearchParams({
-    email: data.email,
-    password: data.password,
-  }).toString();
-
-  const response = await fetch(`/api/user?${queryParams}`, {
-    method: "GET", // Change to GET
+  const response = await fetch("/api/user", {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json", // This header can be omitted for GET requests
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {
@@ -18,7 +14,6 @@ export const login = async (data: { email: string; password: string }) => {
     toast.error(errorData.error);
     throw new Error(errorData.error || "Login failed");
   }
-
   const result = await response.json();
   return result;
 };
