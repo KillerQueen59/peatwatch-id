@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Button, { ButtonColor, ButtonSize, ButtonType } from "../Button";
-import { dataType } from "@/app/(client)/device/aws/component/RenderData";
+import { dataType } from "@/app/(web)/device/aws/component/RenderData";
 import { Bar } from "react-chartjs-2";
 import Table from "../Table/Table";
 import { useCapture } from "@/hooks/useCapture";

@@ -118,13 +118,6 @@ export default function Table({
                       padding: "36px 24px",
                       textAlign: "center",
                     }}>
-                    <Image
-                      alt=""
-                      src={"/empty-table.svg"}
-                      width={120}
-                      height={120}
-                      className="mx-auto"
-                    />
                     <div className="text-lg text-gray-80 font-semibold">
                       Data Not Entered Yet
                     </div>

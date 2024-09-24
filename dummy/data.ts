@@ -7,25 +7,6 @@ export const dummyPT = [
   },
 ];
 
-const dummies = [
-  {
-    label: "Idle",
-    value: 10,
-  },
-  {
-    label: "Active",
-    value: 90,
-  },
-  {
-    label: "Rusak",
-    value: 0,
-  },
-  {
-    label: "Alert",
-    value: 10,
-  },
-];
-
 export const dummiesDashboard = [
   {
     pt: "XYZ",
@@ -99,13 +80,6 @@ export const dummyKebun = [
     value: "XYZ26",
     pt: "XYZ",
   },
-];
-
-export const dummyKebunAwl = [
-  {
-    label: "All",
-    value: "",
-  },
   {
     label: "XYZ12",
     value: "XYZ12",
@@ -154,9 +128,6 @@ export const dummyDevice = [
     label: "AWS-005-XYZ26-3141",
     value: "AWS-005-XYZ26-3141",
   },
-];
-
-export const dummyDeviceAwl = [
   {
     label: "AWL-001-XYZ12-3456",
     value: "AWL-001-XYZ12-3456",
