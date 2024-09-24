@@ -7,7 +7,7 @@ export const POST = async (request: Request) => {
     const user = await prisma.user.findUnique({
       where: { email },
     });
-    console.log("User:", user);
+    console.log("User fetched from Prisma:", user); // Log the result
     if (user && password === user.password) {
       return NextResponse.json(
         { message: "Login successful", user },
