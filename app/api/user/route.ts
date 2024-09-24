@@ -6,11 +6,13 @@ export const POST = async (request: Request) => {
     const { email, password } = await request.json();
     console.log("Request:", email, password); // Log the result
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-    console.log("User fetched from Prisma:", user); // Log the result
-    if (user && password === user.password) {
+    const user = await prisma.user.findMany();
+
+    const finalUser = user.find((user) => user.email === email);
+
+    console.log("User fetched from Prisma:", user, finalUser); // Log the result\
+
+    if (finalUser && password === finalUser.password) {
       return NextResponse.json(
         { message: "Login successful", user },
         { status: 200 }
