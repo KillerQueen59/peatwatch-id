@@ -8,6 +8,8 @@ import Button, { ButtonSize, ButtonColor } from "@/components/Button";
 import DetailModal from "./components/DetailModal";
 import { downloadCsv, downloadPdf } from "@/hooks/useExport";
 import { useAwsImpl } from "./useAwsImpl";
+import { login } from "@/app/login/LoginData";
+import { toast } from "react-toastify";
 
 export default function AWS() {
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +30,20 @@ export default function AWS() {
         <div className="rounded-2xl	w-full border border-gray-30 bg-white">
           <div className="flex w-full p-6">
             <div className="flex-grow">
-              <div className="text-gray-80 font-semibold text-base">
+              <div
+                className="text-gray-80 font-semibold text-base"
+                onClick={() => {
+                  login({
+                    email: "atest13@mail.cpm",
+                    password: "tewadsdsa",
+                  }).then((result) => {
+                    if (result.message) {
+                      toast.success(result.message); // Display success message
+                    } else {
+                      toast.error(result.error); // Display error message
+                    }
+                  });
+                }}>
                 AWS Device
               </div>
               <div className="font-medium text-gray-50"></div>

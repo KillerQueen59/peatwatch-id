@@ -10,6 +10,7 @@ import { validationSchema } from "./loginschema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast, ToastContainer } from "react-toastify"; // Import Toastify
 import "react-toastify/dist/ReactToastify.css"; // Import CSS for Toastify
+import { login } from "./LoginData";
 
 export default function Login() {
   const router = useRouter();
@@ -23,23 +24,14 @@ export default function Login() {
   // Handle form submission
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
-      const response = await fetch("/api/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      login(data).then((result) => {
+        if (result.message) {
+          toast.success(result.message); // Display success message
+          router.push("/dashboard"); // Redirect to dashboard on success
+        } else {
+          toast.error(result.error); // Display error message
+        }
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.error);
-        throw new Error(errorData.error || "Login failed");
-      }
-      const result = await response.json();
-      console.log(result); // You can handle user data here (e.g., storing in context)
-
-      router.replace("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
     }
