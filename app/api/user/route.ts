@@ -1,18 +1,29 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/db";
 
-export const POST = async (request: Request) => {
+export const GET = async (request: Request) => {
   try {
-    const { email, password } = await request.json();
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get("email");
+    const password = searchParams.get("password");
     console.log("Request:", email, password); // Log the result
 
-    const user = await prisma.user.findMany();
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required" },
+        { status: 400 }
+      );
+    }
+    // Use findUnique to fetch the user by email
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email!,
+      },
+    });
 
-    const finalUser = user.find((user) => user.email === email);
+    console.log("User fetched from Prisma:", user); // Log the result
 
-    console.log("User fetched from Prisma:", user, finalUser); // Log the result\
-
-    if (finalUser && password === finalUser.password) {
+    if (user && password === user.password) {
       return NextResponse.json(
         { message: "Login successful", user },
         { status: 200 }
