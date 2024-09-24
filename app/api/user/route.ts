@@ -15,15 +15,12 @@ export const GET = async (request: Request) => {
       );
     }
     // Use findUnique to fetch the user by email
-    const user = await prisma.user.findUnique({
-      where: {
-        email: email!,
-      },
-    });
+    const user = await prisma.user.findMany();
+    const finalUser = user.find((user) => user.email === email);
 
-    console.log("User fetched from Prisma:", user); // Log the result
+    console.log("User fetched from Prisma:", user, finalUser); // Log the result
 
-    if (user && password === user.password) {
+    if (finalUser && password === finalUser.password) {
       return NextResponse.json(
         { message: "Login successful", user },
         { status: 200 }

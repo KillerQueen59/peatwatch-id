@@ -91,6 +91,3 @@ CREATE TABLE "TMATData" (
     "tanggal" TEXT NOT NULL,
     "ketinggian" REAL NOT NULL
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
