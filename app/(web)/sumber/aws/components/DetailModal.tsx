@@ -1,6 +1,7 @@
 import Button, { ButtonColor, ButtonSize } from "@/components/Button";
 import { CloseIcon } from "@/components/Icon/CloseIcon";
 import { useCapture } from "@/hooks/useCapture";
+import { useRouter } from "next/navigation";
 
 type DetailModalProps = {
   header: string;
@@ -15,6 +16,7 @@ const DetailModal = ({
   show = false,
   onClose,
 }: DetailModalProps) => {
+  const router = useRouter();
   const { captureComponent } = useCapture("dummy-id");
   const dummyBattery = 60;
   return (
@@ -132,7 +134,13 @@ const DetailModal = ({
                           </div>
                           <div className="flex-grow"></div>
                         </div>
-                        <div className="  h-fit w-full  cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                        <div
+                          className="h-fit w-full  cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                          onClick={() => {
+                            router.replace(
+                              "/device/aws?parameter=windDirection"
+                            );
+                          }}>
                           <div>56o</div>
                         </div>
                       </div>
@@ -150,8 +158,12 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="  h-fit w-full cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
-                            <div>56o 0 km/jam</div>
+                          <div
+                            className="h-fit w-full cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                            onClick={() => {
+                              router.replace("/device/aws?parameter=windSpeed");
+                            }}>
+                            <div>0 km/jam</div>
                           </div>
                         </div>
                       </div>
@@ -181,11 +193,23 @@ const DetailModal = ({
                               <div className=" border-b h-fit bg-primary-60 text-white border-black w-full text-center ,b-4">
                                 Hari ini
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainfall"
+                                  );
+                                }}>
                                 <div>Curah Hujan (CH)</div>
                                 <div>18 mm </div>
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainrate"
+                                  );
+                                }}>
                                 <div>Intensitas (I)</div>
                                 <div>2 mm/jam</div>
                               </div>
@@ -194,11 +218,23 @@ const DetailModal = ({
                               <div className=" border-b h-fit bg-primary-60 text-white border-black w-full text-center ,b-4">
                                 Kemarin
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainfall"
+                                  );
+                                }}>
                                 <div>Curah Hujan (CH)</div>
                                 <div>18 mm </div>
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainrate"
+                                  );
+                                }}>
                                 <div>Intensitas (I)</div>
                                 <div>2 mm/jam</div>
                               </div>
@@ -207,11 +243,23 @@ const DetailModal = ({
                               <div className=" border-b h-fit bg-primary-60 text-white border-black w-full text-center ,b-4">
                                 Bulan Ini
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainfall"
+                                  );
+                                }}>
                                 <div>Curah Hujan (CH)</div>
                                 <div>18 mm </div>
                               </div>
-                              <div className="  h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                              <div
+                                className="h-fit w-full text-center cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                                onClick={() => {
+                                  router.replace(
+                                    "/device/aws?parameter=rainrate"
+                                  );
+                                }}>
                                 <div>Intensitas (I)</div>
                                 <div>2 mm/jam</div>
                               </div>
@@ -239,7 +287,13 @@ const DetailModal = ({
                           />
                         </div>
                         <div className="flex-grow"></div>
-                        <div className="h-fit w-fit px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                        <div
+                          className="h-fit w-fit px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                          onClick={() => {
+                            router.replace(
+                              "/device/aws?parameter=evaportranspirasi"
+                            );
+                          }}>
                           <div>Σ Bulanan : 0.30 mm</div>
                         </div>
                       </div>
@@ -266,7 +320,13 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                          <div
+                            className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                            onClick={() => {
+                              router.replace(
+                                "/device/aws?parameter=temperature"
+                              );
+                            }}>
                             <div>24.00o</div>
                           </div>
                         </div>
@@ -285,7 +345,7 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                          <div className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 ">
                             <div>1014.10 hPa</div>
                           </div>
                         </div>
@@ -305,7 +365,13 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                          <div
+                            className="h-fit w-full px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                            onClick={() => {
+                              router.replace(
+                                "/device/aws?parameter=solarRadiation"
+                              );
+                            }}>
                             <div>0.00 W/m2</div>
                           </div>
                         </div>
@@ -326,7 +392,11 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="h-fit w-full text-center px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                          <div
+                            className="h-fit w-full text-center px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40"
+                            onClick={() => {
+                              router.replace("/device/aws?parameter=humidity");
+                            }}>
                             <div>93 %</div>
                           </div>
                         </div>
@@ -345,7 +415,7 @@ const DetailModal = ({
                             />
                           </div>
                           <div className="flex-grow"></div>
-                          <div className="h-fit w-full text-center px-2 cursor-pointer bg-primary-10 py-1 hover:bg-primary-40">
+                          <div className="h-fit w-full text-center px-2 cursor-pointer bg-primary-10 py-1 ">
                             <div>0.0</div>
                             <div>Aman</div>
                           </div>

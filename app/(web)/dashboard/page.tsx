@@ -54,7 +54,7 @@ export default function Dashboard() {
       <div className={clsx("z-10 grid grid-cols-12 gap-4 mb-4 p-4", {})}>
         <div className="col-span-4 ">
           <DoughnutChart
-            title="AWL TMAT (Tinggi Mika Air Tanah)"
+            title="Automatic Water Level TMAT (Tinggi Mika Air Tanah)"
             data={dashboard}
             below
             noLine
@@ -76,7 +76,7 @@ export default function Dashboard() {
         </div>
         <div className="col-span-4 ">
           <DoughnutChart
-            title="AWL TMAS (Tinggi Muka Air Saluran)"
+            title="Automatic Water Level TMAS (Tinggi Muka Air Saluran)"
             data={dashboard}
             below
             noLine
@@ -98,7 +98,7 @@ export default function Dashboard() {
         </div>
         <div className="col-span-4 ">
           <DoughnutChart
-            title="AWS"
+            title="Automatic Weather Station"
             data={dashboard}
             below
             noLine

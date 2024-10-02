@@ -99,7 +99,7 @@ function SideBar() {
           {isOpen && (
             <div className="w-[80%] flex-grow">
               <div className="text-gray-80 text-sm font-semibold">
-                {"Admin"}
+                {"admin@admin.com"}
               </div>
               <div className="text-gray-70">{"Admin"}</div>
             </div>

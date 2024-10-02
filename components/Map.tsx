@@ -13,6 +13,8 @@ const TiffMap = () => {
   const router = useRouter();
   const mapRef = React.useRef<any>();
   const [tiffLayers, setTiffLayers] = useState<any[]>([]);
+  const fileInputRef = React.useRef<any>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     processTiffFiles(files);
@@ -90,13 +92,14 @@ const TiffMap = () => {
           />
           <div className="text-sm h-[20px]"> Back to Dashboard</div>
         </div>
-        <h1 className="text-lg">GeoTIFF Map Viewer</h1>
+        <h1 className="text-lg">Carbon Stock Map</h1>
         <input
           type="file"
           accept=".tiff,.tif"
           onChange={handleFileChange}
           multiple
           className="mb-2"
+          ref={fileInputRef}
         />
       </div>
       <div
@@ -109,7 +112,13 @@ const TiffMap = () => {
               <div key={layer.id} className="flex ">
                 <div className="flex-grow">{layer.id} </div>
                 <button
-                  onClick={() => removeLayer(layer.id)}
+                  onClick={() => {
+                    if (fileInputRef?.current) {
+                      fileInputRef.current.value = null;
+                    }
+
+                    removeLayer(layer.id);
+                  }}
                   className="text-red-500 mx-2">
                   Remove
                 </button>

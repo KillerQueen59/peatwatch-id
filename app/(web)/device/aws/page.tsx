@@ -1,19 +1,12 @@
 "use client";
 
-import LineChart from "@/components/Chart/LineChart/LineChart";
 import CustomSelect from "@/components/CustomSelect";
 import CustomSelectField from "@/components/CustomSelectField";
 import { SetStateAction, useState } from "react";
 import Image from "next/image";
-import dummyData2 from "@/dummy/dummy_data.json";
-import dayjs from "dayjs";
 import RenderData from "./component/RenderData";
 import InputDate from "@/components/InputDate/InputDate";
 import { useAwsImpl } from "./useAwsImpl";
-
-const formatDate = (timestamp: number) => {
-  return dayjs(timestamp).format("DD/MM/YYYY HH:mm:ss.SSS");
-};
 
 export default function AWS() {
   const {
@@ -81,8 +74,10 @@ export default function AWS() {
                       placeholder="Kebun"
                     />
                     <CustomSelect
-                      options={devices.filter((aws: any) =>
-                        aws.value.includes(kebun ?? "")
+                      options={devices.filter(
+                        (aws: any) =>
+                          aws.value.includes(kebun ?? "") &&
+                          aws.value.includes("AWS")
                       )}
                       value={device}
                       onChange={(e: string) => setDevice(e)}

@@ -73,8 +73,11 @@ export default function TMAT() {
                       placeholder="Kebun"
                     />
                     <CustomSelect
-                      options={devices.filter((aws: any) =>
-                        aws.value.includes(kebun ?? "")
+                      options={devices.filter(
+                        (aws: any) =>
+                          aws.value.includes(kebun ?? "") &&
+                          aws.value.includes("AWL") &&
+                          aws.value.includes("TMAT")
                       )}
                       value={device}
                       onChange={(e: string) => setDevice(e)}

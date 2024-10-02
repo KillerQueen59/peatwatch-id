@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { getAWS, getDevice, getKebun, getPt } from "./AwsData";
 import dayjs from "dayjs";
+import { useSearchParams } from "next/navigation";
 
 export const useAwsImpl = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const searchParams = useSearchParams();
+  const parameter = searchParams.get("parameter");
 
-  const [tipe, setTipe] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [tipe, setTipe] = useState(parameter ?? "");
   const [showFilter, setShowFilter] = useState(true);
   const [pt, setPt] = useState("");
   const [pts, setPts] = useState([]);

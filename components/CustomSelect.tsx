@@ -56,9 +56,7 @@ const CustomSelect = ({
         onChange(selectedOption.value);
       }}
       value={
-        options
-          ? options.find((option: any) => option.value === value?.value)
-          : ""
+        options ? options.find((option: any) => option.value === value) : ""
       }
       placeholder={placeholder ?? "Choose Select"}
       components={{ DropdownIndicator, IndicatorSeparator: () => null }}
