@@ -14,6 +14,7 @@ import {
   Popup,
   TileLayer,
   useMap,
+  GeoJSON,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import georaster from "georaster";
@@ -23,6 +24,15 @@ import { ChevronLeftOutline, LocationMarker } from "heroicons-react";
 import { useRouter } from "next/navigation";
 import { getAWS } from "@/app/(web)/sumber/aws/AwsData";
 import { getAWL } from "@/app/(web)/sumber/awl/AwlData";
+import { DefaultBoundary } from "@/dummy/DefaultBoundary";
+import {
+  resultRendah,
+  resultBerat,
+  resultSedang,
+  resultSangatRendah,
+  resultSangatBerat,
+} from "@/dummy/DummyResult";
+const { BaseLayer } = LayersControl;
 
 const TiffMap = () => {
   const router = useRouter();
@@ -31,6 +41,7 @@ const TiffMap = () => {
   const fileInputRef = React.useRef<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [aws, setAWS] = useState<any[]>([]);
+  const [isResult, setIsResult] = useState(false);
 
   const getAWSData = useCallback(() => {
     setIsLoading(true);
@@ -64,6 +75,7 @@ const TiffMap = () => {
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // setIsResult(false);
     const files = Array.from(e.target.files || []);
     processTiffFiles(files);
   };
@@ -114,6 +126,7 @@ const TiffMap = () => {
   };
 
   const removeLayer = (id: string) => {
+    // setIsResult(false);
     setTiffLayers((prevLayers) => {
       const layerToRemove = prevLayers.find((layer) => layer.id === id);
       if (layerToRemove && mapRef.current) {
@@ -154,10 +167,6 @@ const TiffMap = () => {
           className="mb-2"
           ref={fileInputRef}
         />
-      </div>
-      <div
-        className="absolute z-50 p-4 bg-white rounded shadow-md"
-        style={{ top: "10px", right: "10px" }}>
         <div style={{ maxHeight: "200px", overflowY: "auto" }}>
           <h2 className="text-md">Added Layers:</h2>
           <div>
@@ -178,54 +187,168 @@ const TiffMap = () => {
               </div>
             ))}
           </div>
+          <div className="">
+            <div>
+              {tiffLayers.length == 2 && !isResult && (
+                <button
+                  onClick={() => {
+                    setIsResult(true);
+                  }}
+                  className="bg-blue-500 text-white px-2 py-1 rounded">
+                  Show Result
+                </button>
+              )}
+            </div>
+            <div>
+              {isResult && (
+                <button
+                  onClick={() => {
+                    setIsResult(false);
+                  }}
+                  className="bg-blue-500 text-white px-2 py-1 rounded">
+                  Reset Resutl
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Map */}
-      <MapContainer
-        style={{
-          width: "100%",
-          height: "100vh",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          zIndex: 1,
-        }}
-        center={[-6.5597191, 106.7255352]}
-        zoom={5}
-        scrollWheelZoom={true}
-        ref={mapRef}>
-        <LayersControl position="topright">
+      {!isLoading && (
+        <MapContainer
+          style={{
+            width: "100%",
+            height: "100vh",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 1,
+          }}
+          center={[-6.5597191, 106.7255352]}
+          zoom={5}
+          scrollWheelZoom={true}
+          ref={mapRef}>
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+            subdomains={["mt0", "mt1", "mt2", "mt3"]}
           />
+          {isResult && (
+            <LayersControl position="topright">
+              {/* Overlay layers */}
+              <LayersControl.Overlay checked name="Sangat Tinggi (> 150 C/ha)">
+                <JSONResult data={resultSangatBerat} map={mapRef.current} />
+              </LayersControl.Overlay>
+
+              <LayersControl.Overlay checked name="Tinggi (100 - 150 C/ha)">
+                <JSONResult data={resultBerat} map={mapRef.current} />
+              </LayersControl.Overlay>
+
+              <LayersControl.Overlay checked name="Sedang (50 - 100 C/ha)">
+                <JSONResult data={resultSedang} map={mapRef.current} />
+              </LayersControl.Overlay>
+
+              <LayersControl.Overlay checked name="Rendah (20 - 50 C/ha)">
+                <JSONResult data={resultRendah} map={mapRef.current} />
+              </LayersControl.Overlay>
+
+              <LayersControl.Overlay checked name="Sangat Rendah (< 20 C/ha)">
+                <JSONResult data={resultSangatRendah} map={mapRef.current} />
+              </LayersControl.Overlay>
+            </LayersControl>
+          )}
+
           {aws.length && awl.length && (
             <NewMarkers markers={[...aws, ...awl]} />
           )}
-        </LayersControl>
-      </MapContainer>
+          <GeoJSONBoundary data={DefaultBoundary} map={mapRef.current} />
+        </MapContainer>
+      )}
     </div>
+  );
+};
+
+const JSONResult = ({ data, map }: any) => {
+  const getFeatureStyle = (feature: any) => {
+    let color;
+    switch (feature.properties.Kelas_A) {
+      case "Berat":
+        color = "#b7de1b";
+        break;
+      case "Rendah":
+        color = "#db6b0f";
+        break;
+      case "Sangat Berat":
+        color = "#02ed22";
+        break;
+      case "Sedang":
+        color = "#a4a832";
+        break;
+      case "Sangat Rendah":
+        color = "#e62102";
+        break;
+      default:
+        color = "gray";
+    }
+
+    return {
+      color: color,
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.5,
+    };
+  };
+  useEffect(() => {
+    if (data && map) {
+      const geoJsonLayer = L.geoJSON(data);
+
+      const bounds = geoJsonLayer.getBounds();
+
+      if (bounds.isValid()) {
+        map.fitBounds(bounds);
+      }
+    }
+  }, [data, map]);
+
+  return <GeoJSON data={data} style={getFeatureStyle} />;
+};
+
+const GeoJSONBoundary = ({ data, map }: any) => {
+  useEffect(() => {
+    if (data && map) {
+      const geoJsonLayer = L.geoJSON(data);
+
+      const bounds = geoJsonLayer.getBounds();
+
+      if (bounds.isValid()) {
+        map.fitBounds(bounds);
+      }
+    }
+  }, [data, map]);
+
+  return (
+    <GeoJSON
+      data={data as any}
+      style={{
+        stroke: true,
+        color: "#000000",
+        fillColor: "#000000",
+      }}
+    />
   );
 };
 
 const NewMarkers = ({ markers }: any) => {
   const groupRef = React.useRef<any>();
-  const map = useMap();
-  console.log("markers", markers);
-
-  React.useEffect(() => {
-    if (map && markers) {
-      map
-        .fitBounds(
-          markers.map((x: any) => [Number(x.latitude), Number(x.longitide)])
-        )
-        .setMaxZoom(17);
-    }
-  }, [map, markers]);
 
   const icon = new L.Icon({
     iconUrl: "/marker.svg",
+    iconSize: new L.Point(20, 25),
+  });
+
+  const iconAwl = new L.Icon({
+    iconUrl: "/marker_awl.svg",
     iconSize: new L.Point(20, 25),
   });
 
@@ -238,7 +361,7 @@ const NewMarkers = ({ markers }: any) => {
               opacity={100}
               key={i}
               position={[Number(x.latitude), Number(x.longitide)]}
-              icon={icon}
+              icon={x.name === "AWS" ? icon : iconAwl}
               eventHandlers={{
                 click: (e) => {},
               }}>
