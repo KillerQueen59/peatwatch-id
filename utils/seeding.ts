@@ -135,6 +135,15 @@ async function main() {
     });
   }
 
+  await prisma.user.create({
+    data: {
+      email: "admin@admin.com",
+      name: "Some Admin",
+      password: "test123",
+      role: "admin",
+    },
+  });
+
   const dummyTmasData = dummyTmas.map((data) => {
     return {
       ...data,
@@ -143,6 +152,7 @@ async function main() {
   });
 
   for (const data of dummyTmasData) {
+    console.log("Processing data TMAS:", data);
     await prisma.tMASData.create({
       data: {
         tanggal: data.Tanggal,
@@ -152,6 +162,7 @@ async function main() {
   }
 
   const dummyTmatData = dummyTmat.map((data) => {
+    console.log("Processing data TMAT:", data);
     return {
       ...data,
       Tanggal: dayjs(data.Tanggal).format("DD/MM/YYYY HH:mm:ss.SSS"),
@@ -166,15 +177,6 @@ async function main() {
       },
     });
   }
-
-  await prisma.user.create({
-    data: {
-      email: "admin@admin.com",
-      name: "Some Admin",
-      password: "test123",
-      role: "admin",
-    },
-  });
 }
 
 main()
