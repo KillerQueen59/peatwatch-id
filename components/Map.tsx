@@ -1,19 +1,67 @@
 "use client";
 
-import React, { InputHTMLAttributes, useEffect, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import React, {
+  InputHTMLAttributes,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
+import {
+  FeatureGroup,
+  LayersControl,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import georaster from "georaster";
 import GeoRasterLayer from "georaster-layer-for-leaflet";
 import L from "leaflet";
-import { ChevronLeftOutline } from "heroicons-react";
+import { ChevronLeftOutline, LocationMarker } from "heroicons-react";
 import { useRouter } from "next/navigation";
+import { getAWS } from "@/app/(web)/sumber/aws/AwsData";
+import { getAWL } from "@/app/(web)/sumber/awl/AwlData";
 
 const TiffMap = () => {
   const router = useRouter();
   const mapRef = React.useRef<any>();
   const [tiffLayers, setTiffLayers] = useState<any[]>([]);
   const fileInputRef = React.useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [aws, setAWS] = useState<any[]>([]);
+
+  const getAWSData = useCallback(() => {
+    setIsLoading(true);
+    getAWS()
+      .then((res) => {
+        if (res?.data) {
+          setAWS(
+            res.data.filter((x: any) => x.latitude != "0" && x.longitide != "0")
+          );
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+  const [awl, setAWL] = useState<any[]>([]);
+
+  const getAWLData = useCallback(() => {
+    setIsLoading(true);
+    getAWL()
+      .then((res) => {
+        if (res?.data) {
+          setAWL(
+            res.data.filter((x: any) => x.latitude != "0" && x.longitide != "0")
+          );
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -74,6 +122,11 @@ const TiffMap = () => {
       return prevLayers.filter((layer) => layer.id !== id);
     });
   };
+
+  useEffect(() => {
+    getAWSData();
+    getAWLData();
+  }, []);
 
   return (
     <div className="relative text-gray-60">
@@ -142,12 +195,69 @@ const TiffMap = () => {
         zoom={5}
         scrollWheelZoom={true}
         ref={mapRef}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
+        <LayersControl position="topright">
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {aws.length && awl.length && (
+            <NewMarkers markers={[...aws, ...awl]} />
+          )}
+        </LayersControl>
       </MapContainer>
     </div>
+  );
+};
+
+const NewMarkers = ({ markers }: any) => {
+  const groupRef = React.useRef<any>();
+  const map = useMap();
+  console.log("markers", markers);
+
+  React.useEffect(() => {
+    if (map && markers) {
+      map
+        .fitBounds(
+          markers.map((x: any) => [Number(x.latitude), Number(x.longitide)])
+        )
+        .setMaxZoom(17);
+    }
+  }, [map, markers]);
+
+  const icon = new L.Icon({
+    iconUrl: "/marker.svg",
+    iconSize: new L.Point(20, 25),
+  });
+
+  return (
+    <FeatureGroup ref={groupRef}>
+      {markers &&
+        markers.map((x: any, i: number) => {
+          return (
+            <Marker
+              opacity={100}
+              key={i}
+              position={[Number(x.latitude), Number(x.longitide)]}
+              icon={icon}
+              eventHandlers={{
+                click: (e) => {},
+              }}>
+              <Popup>
+                <div className="border border-solid border-m3 w-44">
+                  <div className="border-b border-solid border-m3 w-full flex items-center justify-center"></div>
+                  <div className="w-full flex flex-col px-2 pt-2">
+                    <div className="font-medium mr-2">{x.name}</div>
+                    <div className="font-medium text-sm leading-none">
+                      {x.detailName}
+                    </div>
+                    <div>Status: {x.status}</div>
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
+    </FeatureGroup>
   );
 };
 
