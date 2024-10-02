@@ -2,7 +2,7 @@
 
 import CustomSelect from "@/components/CustomSelect";
 import CustomSelectField from "@/components/CustomSelectField";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, Suspense, useState } from "react";
 import Image from "next/image";
 import RenderData from "./component/RenderData";
 import InputDate from "@/components/InputDate/InputDate";
@@ -31,7 +31,7 @@ export default function AWS() {
   } = useAwsImpl();
 
   return (
-    <div>
+    <Suspense>
       <div className="w-full p-8">
         <div className="rounded-2xl	w-full border border-gray-30 bg-white">
           <div className="flex w-full p-6">
@@ -138,6 +138,6 @@ export default function AWS() {
           )}
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
